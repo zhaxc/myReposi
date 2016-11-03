@@ -1,5 +1,5 @@
 /*
- * 视图 - 主页
+ * 视图 - 主页 （用来显示数据的各种UI组件）
  */
 
 Ext.define("App.view.main.Main", {

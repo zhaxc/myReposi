@@ -1,5 +1,5 @@
 /* 
- * 数据存储 - 角色
+ * 数据存储 - 角色 (模型)
  */
 
 Ext.define("App.store.Role", {
