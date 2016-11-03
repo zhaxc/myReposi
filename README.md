@@ -1,2 +1,0 @@
-# myReposi 
-for test github
