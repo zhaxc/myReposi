@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "users": [
+    {"id": 1, "name": 'Ed',    "email": "ed@sencha.com"},
+    {"id": 2, "name": 'Tommy', "email": "tommy@sencha.com"},
+    {"id": 3, "name": '杨强宇', "email": "168553877@qq.com"}
+  ]
+}
