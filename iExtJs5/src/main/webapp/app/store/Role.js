@@ -1,5 +1,5 @@
 /* 
- * 数据存储 - 角色 (模型)
+ * 数据存储 - 角色 (模型) Ext.define(className, members, onClassCreated);
  */
 
 Ext.define("App.store.Role", {
