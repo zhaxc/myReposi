@@ -1,5 +1,5 @@
 /*
- * 视图 - 角色管理
+ * 视图 - 角色管理（）
  */
 
 Ext.define("App.view.role.Role", {
