@@ -70,6 +70,7 @@ Ext.onReady(function () {
     win.show();
   });*/
 
+
 /*  Ext.create('Ext.panel.Panel', {
     renderTo: Ext.getBody(),
     width: 700,
@@ -145,5 +146,5 @@ Ext.onReady(function () {
 // Turn the suspendLayout flag off.  延缓（suspend）
   containerPanel.suspendLayout = false;
 // Trigger a layout.
-  containerPanel.updateLayout();
+  containerPanel.updateLayout();  //updateLayout 方法是递归循环的（recursive），每一个子容器都有这个方法
 });
