@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="extjsMVC:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="zha.war">
+      <element id="artifact" artifact-name="extjsMVC:war exploded" />
+    </root>
+  </artifact>
+</component>
