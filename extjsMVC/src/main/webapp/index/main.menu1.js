@@ -9,6 +9,14 @@ Main_Menu.build = function (){
 			reader: {
 				type: 'json'
 			}
+			/*api: {
+				read: 'json/menu.json',
+			},
+			reader: {
+				type: 'json',
+				//root: 'users',
+				//successProperty: 'success'
+			}*/
 		},
 		root: { expanded: false },//
 		autoLoad: false
