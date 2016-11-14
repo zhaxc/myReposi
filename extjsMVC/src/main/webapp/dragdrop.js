@@ -1,7 +1,6 @@
 /**
  * Created by java on 2016/11/7.
  */
-
 Ext.onReady(function() {
     // Create an object that we'll use to implement and override drag behaviors a little later
 
