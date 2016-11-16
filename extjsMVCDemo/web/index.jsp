@@ -16,6 +16,6 @@
     <script type="text/javascript" src="app/appjs/app.js"></script>
   </head>
   <body>
-    <%--加入内容无用--%>
+
   </body>
 </html>

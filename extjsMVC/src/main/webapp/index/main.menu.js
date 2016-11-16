@@ -6,18 +6,46 @@ Main_Menu.build = function (menuJsonStr){
 	
 	var arr = [];
 	for (var i in menus) {
+		console.log(menus[i])
 		var tree = Ext.create('Ext.tree.TreePanel',{
 			border:false,
 			root:menus[i],
+			//root:{
+			//	text: 'Root',
+			//	expanded: true,
+			//	children: [
+			//		{
+			//			text: '节点1',
+			//			leaf: true
+			//		},
+			//		{
+			//			text: '节点2',
+			//			leaf: true
+			//		},
+			//		{
+			//			text: '节点3',
+			//			expanded: true,//是否展开
+			//			children: [
+			//				{
+			//					text: '孙子节点',
+			//					leaf: true
+			//				}
+			//			]
+			//		}
+			//	]
+			//},
 		  	store:new Ext.data.TreeStore({
 
 		  	}),
 		  	rootVisible:false,
 		  	listeners:{
 		  		'itemclick' :function (tree,  item) {
+					//Ext.Msg.alert("aaa",item.data.id);
+					//console.log(tree);
+					//console.log(item);
 		  			Main_Tab.addTab(item.data.id , item.data.attributes , item.data.text);
 		  		}
-		  	}
+			}
 		});
 		/*arr[arr.length] =  { title: menus[i].text , layout:'fit', items:[tree], icon: imagePath + "/index/menu/" + menus[i].id + '.png' };*/
 		arr[arr.length] =  { title: menus[i].text , layout:'fit', items:[tree]};
