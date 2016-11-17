@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+    <context:component-scan base-package="com.zha.boss.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--<context:component-scan base-package="com.zhongche.bossplatform.aop">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>-->
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+        <!--<mvc:argument-resolvers>
+           <bean class="com.zhongche.core.mvc.method.annotation.FormModelMethodArgumentResolver"/>  
+       	</mvc:argument-resolvers> -->
+    </mvc:annotation-driven>
+
+
+    <!-- 织入切面 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- 把"/*"URl，注册到SimpleUrlHandlerMapping的UrlMap中，把對静态资源的访问由HandlerMapping转到DefaultServletHttpRequestHandler处理并返回， -->
+    <mvc:default-servlet-handler/>
+    <!-- cache-period：可以使得静态资源进行web cache -->
+    <!--<mvc:resources mapping="/images/**" location="/resources/image/" cache-period="31556926" />
+    <mvc:resources mapping="/js/**" location="/resources/js/" cache-period="31556926" />
+    <mvc:resources mapping="/css/**" location="/resources/css/" cache-period="31556926" />-->
+
+
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 文件上传解析 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="5000000000"/>
+    </bean>
+
+</beans>
