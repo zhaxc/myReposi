@@ -1,7 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:property-placeholder location="classpath:redis.properties"/>
+
+    <context:component-scan base-package="com.zha">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+    <!--构造注入-->
+    <!--<bean id="jedis" class="redis.clients.jedis.Jedis">
+        &lt;!&ndash;参数索引注入&ndash;&gt;
+       &lt;!&ndash; <constructor-arg index="0" value="${redis.host}"/>&ndash;&gt;
+
+        &lt;!&ndash;Spring3支持的参数名注入  需要使用在编译程序时打开调试模式（即在编译时使用“javac –g:vars”在class文件中生成变量调试信息，默认是不包含变量调试信息的，从而能获取参数名字，否则获取不到参数名字）或在构造器上使用@ConstructorProperties（java.beans.ConstructorProperties）注解来指定参数名。&ndash;&gt;
+        <constructor-arg name="host" value="${redis.host}"/>
+        <constructor-arg name="port" value="${redis.port}"/>
+        &lt;!&ndash;参数类型注入&ndash;&gt;
+        &lt;!&ndash;<constructor-arg type="java.lang.String" value="${redis.host}"/>
+        <constructor-arg type="int" value="${redis.port}"/>&ndash;&gt;
+    </bean>-->
+
+    <bean id="shardInfo" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" type="java.lang.String" value="${redis.host}"/>
+        <constructor-arg index="1" type="int" value="${redis.port}"/>
+        <property name="password" value="${redis.password}"/>
+    </bean>
+
+    <bean id="jedis" class="redis.clients.jedis.Jedis">
+        <constructor-arg index="0" ref="shardInfo"/>
+    </bean>
+
+<!--
+    <bean id="client" class="redis.clients.jedis.Client">
+        <property name="host" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+    </bean>
+-->
+
+   <!-- <bean id="jedisPubSub" class="redis.clients.jedis.JedisPubSub" abstract="true">
+
+    </bean>-->
+
+    <!--jedis pool-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxActive}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+     </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1" value="${redis.host}"/>
+        <constructor-arg index="2" value="${redis.port}"/>
+        <constructor-arg index="3" value="${redis.timeout}"/>
+        <constructor-arg index="4" value="${redis.password}"/>
+        <constructor-arg index="5" value="0"/>
+    </bean>
+
+
+    <!-- jedis cluster config -->
+    <bean name="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig" >
+        <property name="maxWaitMillis" value="-1" />
+        <property name="maxTotal" value="1000" />
+        <property name="minIdle" value="8" />
+        <property name="maxIdle" value="100" />
+    </bean>
+
+    <bean id="jedisCluster" class="com.zha.factory.JedisClusterFactory">
+        <property name="addressConfig">
+            <value>classpath:redis-config.properties</value>
+        </property>
+        <property name="addressKeyPrefix" value="address"/>
+        <property name="timeout" value="300000"/>
+        <property name="maxRedirections" value="6"/>
+        <property name="genericObjectPoolConfig" ref="genericObjectPoolConfig"/>
+    </bean>
 </beans>
