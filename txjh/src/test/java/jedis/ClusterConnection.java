@@ -38,4 +38,9 @@ public class ClusterConnection extends BaseTest {
 
     }
 
+    @Test
+    public void testMap() {
+
+    }
+
 }
